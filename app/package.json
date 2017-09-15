@@ -9,10 +9,6 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "d3": "^4.4.0",
-    "d3-hexbin": "^0.2.2",
-    "d3-shotchart": "0.0.2",
-    "d3-tip": "^0.7.1",
     "vue": "^2.3.3"
   },
   "devDependencies": {

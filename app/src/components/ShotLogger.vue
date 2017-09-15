@@ -15,7 +15,8 @@
 		<div class="last">
 			<div>Last Added</div>
 			<div>Shooter: {{lastShot.shooter}}</div>
-			<div>Position: {{lastShot.x}}, {{lastShot.y}}</div>
+			<div>X Position: {{lastShot.x}} </div>
+			<div>Y Postion: {{lastShot.y}}</div>
 			<div>Outcome: {{lastShot.outcome}}</div>
 		</div>
 	</div>
@@ -84,7 +85,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 	.court{
-		/* background-color: gray; */
 		background:url("../assets/img/court.svg")
 	}
 	.last{
