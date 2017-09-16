@@ -17,27 +17,30 @@
 			<div>Shooter: {{lastShot.shooter}}</div>
 			<div>X Position: {{lastShot.x}} </div>
 			<div>Y Postion: {{lastShot.y}}</div>
-			<div>Outcome: {{lastShot.outcome}}</div>
 		</div>
+		<shot-chart :newData="shots"></shot-chart>
 	</div>
 </template>
 
 <script>
 
+import ShotChart from './ShotChart.vue';
 
 export default {	
 	name: 'ShotLogger',
+	components: {
+		'shot-chart': ShotChart
+	},
 	data () {
 		return {
 			//TODO - have user configure the player set to be used for the session
 			shooters:["player1", "player2", "player3", "player4"],
-			missedShots:[],
-			madeShots:[],
+			shots:[],
+			//data2:[{"x":50,"y":35,"made":0,"attempts":10,"z":-0.71}]
 			lastShot:{
 				"shooter":"",
-				"outcome":"",
 				"x":"",
-				"y":""
+				"y":"",
 			},
 			outcomeToggle:"made",
 		}
@@ -61,13 +64,33 @@ export default {
 
 			if(this.outcomeToggle ==="missed"){
 				ctx.fillStyle = "#ff2626"; // Red color	
-				this.lastShot.outcome = "Missed";
-				this.missedShots.push(this.lastShot);
+				this.lastShot.made=0;
+				this.lastShot.attempts=1;
+				this.shots.push({
+					"x":x,
+					"y":y,
+					"shooter":"",
+					"made":0,
+					//default z value
+					//this is the number of std deviations away from mean at this location
+					//"z":-2,
+					//"attempts":1,
+				});
 			}
 			else{
 				ctx.fillStyle = "#0000FF"; // Blue color	
-				this.lastShot.outcome = "Made";
-				this.madeShots.push(this.lastShot);
+				this.lastShot.made=0;
+				this.lastShot.attempts=1;
+				this.shots.push({
+					"x":x,
+					"y":y,
+					"shooter":"",
+					"made":1,
+					//default z value
+					//this is the number of std deviations away from mean at this location
+					//"z":2,
+					//"attempts":1,
+				});
 			}
 			
 			ctx.beginPath(); //Start path

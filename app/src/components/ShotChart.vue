@@ -1,54 +1,70 @@
 <template>
 	<div>
 		<div>Shooting Accuracy</div>
+		<button v-on:click="playerShotDistr(gameData)">Show Distribution Data</button>
 		<div id="chart1"></div>
 	</div>	
 </template>
 
 <script>
 
+//test data
 var sample = require("../assets/js/data.js");
+
 export default {	
 	name: 'ShotChart',
+	//grab data from shotLogger for display
+	props:["newData"],
 	data () {
 		return {
-			//TODO - have user configure the player set to be used for the session
-			shooters:["player1", "player2", "player3", "player4"],
-			data:sample
+			//TODO - have user configure the player to be used for the chart
+			//shooters:["player1", "player2", "player3", "player4"],
+			data:sample,
+			gameData:[],
 		}
 	},
-	mounted() {
-		this.playerShotDistr();
-    },
+
+	watch: {
+		//once data loads from stats component, display player data
+        newData: function(){
+			this.translateData();
+        }
+	},
+	
 	methods: {
-		playerShotDistr: function(){
-			console.log(this.data);
-			var heatRange = ['#5458A2', '#6689BB', '#FADC97', '#F08460', '#B02B48'];
-			
+		playerShotDistr: function(data){
+			//clear previous heat chart
+			d3.select("svg").remove();
+			//draw new heatmap
+			var heatRange = ['#5458A2', '#6689BB', '#FADC97', '#F08460', '#B02B48'];	
 			d3.select(document.getElementById('chart1'))
 			.append("svg")
 				.chart("BasketballShotChart", {
 				width: 600, 
 				title: 'Sample Data',
-				hexagonFillValue: function(d) {  return d.z; }, 
-				// reverse the heat range to map our z values to other colors
-				heatScale: d3.scale.quantile()
-					.domain([-2.5, 2.5])
-					.range(['#5458A2', '#6689BB', '#FADC97', '#F08460', '#B02B48']),
-				hexagonBin: function (point, bin) {
-					var currentZ = bin.z || 0;
-					var totalAttempts = bin.attempts || 0;
-					var totalZ = currentZ * totalAttempts;
-
-					var attempts = point.attempts || 1;
-					bin.attempts = totalAttempts + attempts;
-					bin.z = (totalZ + (point.z * attempts))/bin.attempts;
-				},
-				// update radius threshold to at least 4 shots to clean up the chart
-				hexagonRadiusThreshold: 4,
 				})
-			.draw(this.data); 
+			.draw(data); 
 		},
+		
+		calcDistance:function(){
+			//court length (y coord) goes from 0 to 35
+			//court width (x coord) goes from 0 to 50
+		},
+		translateData:function(){
+			//convert input data from canvas into readable scale and x,y layout for d3
+			this.gameData = [];
+			for(var i=0; i<this.newData.length;i++){
+				var newShot={};
+				newShot.x = this.newData[i].x * (50/600); 
+				newShot.y = (400 - this.newData[i].y) * (35/400); 
+				newShot.z = this.newData[i].z;
+				newShot.shooter = this.newData[i].shooter;
+				newShot.made = this.newData[i].made;
+				newShot.attempts = this.newData[i].attempts;
+				this.gameData.push(newShot);
+			}
+		}
+
     }
 }
 </script>

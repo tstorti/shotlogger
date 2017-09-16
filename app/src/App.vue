@@ -2,20 +2,20 @@
   <div id="app">
     <h3>{{ msg }}</h3>
     <shot-logger></shot-logger>
-    <shot-chart></shot-chart>
+    <!-- <shot-chart></shot-chart> -->
   </div>
 </template>
 
 <script>
 
 import ShotLogger from './components/ShotLogger.vue';
-import ShotChart from './components/ShotChart.vue';
+// import ShotChart from './components/ShotChart.vue';
 
 export default {
   name: 'app',
   components: {
     'shot-logger': ShotLogger,
-    'shot-chart':ShotChart,
+    // 'shot-chart':ShotChart,
 	},
   data () {
     return {

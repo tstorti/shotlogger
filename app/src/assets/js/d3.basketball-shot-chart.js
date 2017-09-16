@@ -390,15 +390,15 @@
       bin.made = (bin.made || 0) + made;
     },
     // how many points does a bin need to be visualized
-    hexagonBinVisibleThreshold: 1,
+    hexagonBinVisibleThreshold: 0,
     // method to determine value to be used with specified heatScale
     hexagonFillValue: function(d) {  return d.made/d.attempts; },
     // bin size with regards to courth width/height (ft)
-    hexagonRadius: .75,
+    hexagonRadius: 1.5,
     // discrete hexagon size values that radius value is mapped to
     hexagonRadiusSizes: [0, .4, .6, .75],
     // how many points in a bin to consider it while building radius scale
-    hexagonRadiusThreshold: 2,
+    hexagonRadiusThreshold: 0,
     // method to determine radius value to be used in radius scale
     hexagonRadiusValue: function (d) { return d.attempts; },
     // width of key marks (dashes on side of the paint) (ft)
